@@ -126,8 +126,8 @@ export const getChapter = async (req, res) => {
 
 export const uploadVideo = async (req, res) => {
   try {
-    // console.log("req.user._id", req.user._id);
-    // console.log("req.params.instructorId", req.params.instructorId);
+      console.log("req.user._id", req.user._id);
+      console.log("req.params.instructorId", req.params.instructorId);
     if (req.user._id != req.params.instructorId) {
       return res.status(400).send("Unauthorized");
     }
