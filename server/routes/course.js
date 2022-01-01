@@ -58,9 +58,9 @@ router.put("/course/publish/:courseId", requireSignin, publishCourse);
 router.put("/course/unpublish/:courseId", requireSignin, unpublishCourse);
 
 // `/api/course/chapter`
+router.post("/course/chapter/:slug/:instructorId", requireSignin, addChapter);
 router.get("/course/course-chapters", requireSignin, isInstructor, chapters);
 router.get("/course/chapter/:slug", getChapter);
-router.post("/course/chapter/:courseId", requireSignin, addChapter);
 router.put("/course/chapter/:slug/:instructorId", requireSignin, updateChapter);
 router.put("/course/:slug/:chapterId", requireSignin, removeChapter);
 

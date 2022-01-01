@@ -126,8 +126,8 @@ export const getChapter = async (req, res) => {
 
 export const uploadVideo = async (req, res) => {
   try {
-      console.log("req.user._id", req.user._id);
-      console.log("req.params.instructorId", req.params.instructorId);
+      console.log("req.user._id : ", req.user._id);
+      console.log("req.params.instructorId : ", req.params.instructorId);
     if (req.user._id != req.params.instructorId) {
       return res.status(400).send("Unauthorized");
     }
@@ -188,7 +188,7 @@ export const removeVideo = async (req, res) => {
   }
 };
 
-export const addChapter = async (req, res) => {
+export const addChaptero = async (req, res) => {
   const { title} = req.body;
   const {courseId} = req.params;
   const newChapter = await Chapter.create({...req.body, course : courseId, slug: slugify(title), instructor: req.user._id})
@@ -201,6 +201,34 @@ export const addChapter = async (req, res) => {
       data : foundCourse
   })  
 };
+
+
+export const addChapter = async (req, res) => {
+  try {
+    const { slug, instructorId } = req.params;
+    const { title, description } = req.body;
+
+    if (req.user._id != instructorId) {
+      return res.status(400).send("Unauthorized");
+    }
+
+    const updated = await Course.findOneAndUpdate(
+      { slug },
+      {
+        $push: { chapters: { title, description, slug: slugify(title) } },
+      },
+      { new: true }
+    )
+      .populate("instructor", "_id name")
+      .exec();
+    console.log("====> " +updated)
+    res.json(updated);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).send("Add lesson failed");
+  }
+};
+
 
 // get all books
 export const chapters = (req, res) => {

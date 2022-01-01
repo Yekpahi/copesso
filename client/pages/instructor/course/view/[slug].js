@@ -61,7 +61,7 @@ const CourseView = () => {
     // console.log(values);
     try {
       const { data } = await axios.post(
-        `/api/course/chapter/${course._id}`,
+        `/api/course/chapter/${slug}/${course.instructor._id}`,
         values
       );
       // console.log(data)
@@ -70,7 +70,7 @@ const CourseView = () => {
       setUploadButtonText("Upload video");
       setVisible(false);
       setCourse(data);
-      toast("Lesson added");
+      toast("Chapter added");
     } catch (err) {
       console.log(err);
       toast("Chapter add failed");
